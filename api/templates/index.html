@@ -1,0 +1,15 @@
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+<h1 class="title">Dashboard</h1>
+<div class="cards">
+    <div class="card">
+        <h2>Nueva Consulta</h2>
+        <a href="{% url 'consulta' %}" class="btn">Ir a Nueva Consulta</a>
+    </div>
+    <div class="card">
+        <h2>Lista de Estimaciones</h2>
+        <a href="{% url 'lista' %}" class="btn">Ir a Lista de Estimaciones</a>
+    </div>
+</div>
+{% endblock %}

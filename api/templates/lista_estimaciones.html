@@ -1,0 +1,34 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %}Lista de Estimaciones{% endblock %}
+
+{% block content %}
+<h1 class="title">Lista de Estimaciones</h1>
+
+<div class="data-container">
+    <div class="data-titles">
+        <div class="title-item">Name</div>
+        <div class="title-item">Latitude</div>
+        <div class="title-item">Longitude</div>
+        <div class="title-item">Start Date</div>
+        <div class="title-item">End Date</div>
+        <div class="title-item">Created At</div>
+    </div>
+    <div class="data-rows">
+        {% for consulta in consultas %}
+        <div class="data-row">
+            <div class="data-item">{{ consulta.name }}</div>
+            <div class="data-item">{{ consulta.lat }}</div>
+            <div class="data-item">{{ consulta.lon }}</div>
+            <div class="data-item">{{ consulta.start_date }}</div>
+            <div class="data-item">{{ consulta.end_date }}</div>
+            <div class="data-item">{{ consulta.created_at }}</div>
+        </div>
+        {% empty %}
+        <div class="data-row no-data">
+            <div class="data-item" colspan="6">No data available</div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

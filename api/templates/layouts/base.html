@@ -1,0 +1,41 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consultas</title>
+    <link rel="stylesheet" href="{% static 'styles/main.css' %}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Barra Superior -->
+    <header class="topbar">
+        <div class="logo">
+            <img src="{% static 'images/logo.png' %}" alt="Logo">
+        </div>
+    </header>
+
+    <!-- Barra Lateral -->
+    <nav class="sidebar collapsed" id="sidebar">
+        <ul>
+            <li>
+                <button class="toggle-btn" id="toggleSidebar">
+                    <i class="fa fa-bars"></i>
+                </button>
+            </li>
+            <li><a href="{% url 'index' %}"><i class="fa fa-home"></i> <span>Home</span></a></li>
+            <li><a href="{% url 'consulta' %}"><i class="fa fa-plus"></i> <span>Nueva Consulta</span></a></li>
+            <li><a href="{% url 'lista' %}"><i class="fa fa-list"></i> <span>Lista de Estimaciones</span></a></li>
+        </ul>
+    </nav>
+
+    <!-- Contenido Dinámico -->
+    <main class="main-content collapsed" id="mainContent">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <script src="{% static 'scripts/main.js' %}"></script>
+</body>
+</html>
