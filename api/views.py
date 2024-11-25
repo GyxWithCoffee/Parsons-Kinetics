@@ -6,7 +6,6 @@ from .forms import CrearConsultaForm
 from .calculos import wind_analysis
 
 
-# Create your views here.
 
 def index(request):
     return render(request,'index.html')
