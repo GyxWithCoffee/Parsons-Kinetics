@@ -11,7 +11,11 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import requests_cache
 from openmeteo_requests import Client
+import base64
 # from scipy.integrate import cumtrapz
+
+def codificar_img_base(image_data):
+    return base64.b64encode(image_data).decode('utf-8')
 
 
 def wind_analysis(lat, lon, start_date, end_date):
@@ -125,6 +129,7 @@ def wind_analysis(lat, lon, start_date, end_date):
     plt.legend()
     # Guardar la gráfica en memoria como PNG
     wind_speed_timeseries_bytes = io.BytesIO()
+    
     plt.savefig(wind_speed_timeseries_bytes, format='png', bbox_inches='tight')  # Guardar como PNG
     plt.close()  # Cerrar la gráfica para liberar memoria
     wind_speed_timeseries_bytes.seek(0)  # Reiniciar el puntero del flujo de datos
