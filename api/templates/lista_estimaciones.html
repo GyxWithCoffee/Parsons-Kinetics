@@ -13,6 +13,8 @@
         <div class="title-item">Start Date</div>
         <div class="title-item">End Date</div>
         <div class="title-item">Created At</div>
+        <div class="title-item">Delete</div> 
+        <div class="title-item">Details</div> 
     </div>
     <div class="data-rows">
         {% for consulta in consultas %}
@@ -23,6 +25,38 @@
             <div class="data-item">{{ consulta.start_date }}</div>
             <div class="data-item">{{ consulta.end_date }}</div>
             <div class="data-item">{{ consulta.created_at }}</div>
+            <div class="data-item">
+                <!-- Botón para eliminar la consulta -->
+                <form action="{% url 'eliminar_consulta' consulta.id %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="delete-button">Eliminar</button>
+                </form>
+            </div>
+            <div>
+                <button class="toggle-details" data-id="{{ forloop.counter }}">Show Details</button>
+            </div>
+        </div>
+        <div class="details-row hidden" id="details-{{ forloop.counter }}">
+            <div class="details">
+                <img src="data:image/png;base64,{{ consulta.wind_speed_timeseries_base64 }}" alt="Wind Speed Time Series" />
+                <img src="data:image/png;base64,{{ consulta.wind_speed_distribution_base64 }}" alt="Wind Speed Distribution" />
+                <img src="data:image/png;base64,{{ consulta.wind_distribucion_acumulada_base64 }}" alt="Wind Distribution Cumulative" />
+                <img src="data:image/png;base64,{{ consulta.wind_rose_10m_base64 }}" alt="Wind Rose 10m" />
+                <img src="data:image/png;base64,{{ consulta.wind_rose_100m_base64 }}" alt="Wind Rose 100m" />
+                <img src="data:image/png;base64,{{ consulta.weibull_curves_base64 }}" alt="Weibull Curves" />
+                <img src="data:image/png;base64,{{ consulta.weibull_distribution_base64 }}" alt="Weibull Distribution" />
+                <img src="data:image/png;base64,{{ consulta.eficiencia_generador_base64 }}" alt="Generator Efficiency" />
+                <img src="data:image/png;base64,{{ consulta.potencia_viento_base64 }}" alt="Wind Power" />
+                <img src="data:image/png;base64,{{ consulta.potencia_turbina_base64 }}" alt="Turbine Power" />
+                <img src="data:image/png;base64,{{ consulta.potencia_acumulada_base64 }}" alt="Accumulated Power" />
+
+                <p><strong>Elevation:</strong> {{ consulta.elevation }}</p>
+                <p><strong>Air Density:</strong> {{ consulta.air_density }}</p>
+                <p><strong>Weibull Parameters (10m):</strong> {{ consulta.weibull_params_10m }}</p>
+                <p><strong>Weibull Parameters (100m):</strong> {{ consulta.weibull_params_100m }}</p>
+                <p><strong>Max Power:</strong> {{ consulta.potencia_max }}</p>
+                <p><strong>Average Power:</strong> {{ consulta.potencia_promedio }}</p>
+            </div>
         </div>
         {% empty %}
         <div class="data-row no-data">

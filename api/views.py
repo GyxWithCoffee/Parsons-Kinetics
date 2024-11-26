@@ -1,9 +1,11 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect, get_object_or_404
 from django.http import HttpResponse
-from django.views.decorators.csrf import csrf_exempt # type: ignore
+from django.views.decorators.csrf import csrf_exempt 
 from .models import Consulta
 from .forms import CrearConsultaForm
-from .calculos import wind_analysis
+from .calculos import wind_analysis,codificar_img_base
+from django.http import Http404
+
 
 
 # Create your views here.
@@ -16,6 +18,29 @@ def formulario(request):
 
 def lista_estimaciones(request):
     consultas = Consulta.objects.all()
+    for consulta in consultas:
+        if consulta.wind_speed_timeseries:
+            consulta.wind_speed_timeseries_base64 = codificar_img_base(consulta.wind_speed_timeseries)
+        if consulta.wind_speed_distribution:
+            consulta.wind_speed_distribution_base64 = codificar_img_base(consulta.wind_speed_distribution)
+        if consulta.wind_distribucion_acumulada:
+            consulta.wind_distribucion_acumulada_base64 = codificar_img_base(consulta.wind_distribucion_acumulada)
+        if consulta.wind_rose_10m:
+            consulta.wind_rose_10m_base64 = codificar_img_base(consulta.wind_rose_10m)
+        if consulta.wind_rose_100m:
+            consulta.wind_rose_100m_base64 = codificar_img_base(consulta.wind_rose_100m)
+        if consulta.weibull_curves:
+            consulta.weibull_curves_base64 = codificar_img_base(consulta.weibull_curves)
+        if consulta.weibull_distribution:
+            consulta.weibull_distribution_base64 = codificar_img_base(consulta.weibull_distribution)
+        if consulta.eficiencia_generador:
+            consulta.eficiencia_generador_base64 = codificar_img_base(consulta.eficiencia_generador)
+        if consulta.potencia_viento:
+            consulta.potencia_viento_base64 = codificar_img_base(consulta.potencia_viento)
+        if consulta.potencia_turbina:
+            consulta.potencia_turbina_base64 = codificar_img_base(consulta.potencia_turbina)
+        if consulta.potencia_acumulada:
+            consulta.potencia_acumulada_base64 = codificar_img_base(consulta.potencia_acumulada)
     return render(request,'lista_estimaciones.html',{
         'consultas':consultas
     })
@@ -81,4 +106,15 @@ def consulta(request):
 
     return render(request, 'formulario.html', {'form': form})
 
+# views.py
 
+def eliminar_consulta(request, consulta_id):
+    try:
+        consulta = Consulta.objects.get(id=consulta_id)
+    except Consulta.DoesNotExist:
+        raise Http404("Consulta no encontrada")
+    # Eliminar la consulta
+    consulta.delete()
+    
+    # Redirigir a la lista de consultas después de la eliminación
+    return redirect('lista')  # Ajusta con el nombre de la vista correspondiente

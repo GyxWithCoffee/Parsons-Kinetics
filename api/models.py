@@ -7,11 +7,9 @@ class Consulta(models.Model):
     start_date = models.DateField()  # Fecha de inicio
     end_date = models.DateField()  # Fecha final
     created_at = models.DateTimeField(auto_now_add=True)  # Fecha de creación automática
-
     # Datos
     elevation = models.FloatField(null=True, blank=True)  # Elevación en metros
     air_density = models.FloatField(null=True, blank=True)  # Densidad del aire
-
     # Gráficas en formato binario
     wind_speed_timeseries = models.BinaryField(null=True, blank=True)  # Serie temporal
     wind_speed_distribution = models.BinaryField(null=True, blank=True)  # Distribución de velocidad
